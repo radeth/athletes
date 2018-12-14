@@ -1,0 +1,36 @@
+.c-overview .header {
+  font-family: "Josefin Sans", Helvetica, sans-serif;
+  color: #172b4d;
+  position: relative;
+}
+.c-overview .label {
+  padding-right: 5px;
+  font-weight: bold;
+  font-family: "Josefin Sans", Helvetica, sans-serif;
+}
+.c-overview .bio {
+  line-height: 1.4;
+}
+.c-overview .bio,
+.c-overview .skillset {
+  margin: 15px;
+}
+.c-overview .skillset {
+  display: flex;
+}
+.c-overview .list-item {
+  margin: 15px 0;
+}
+.c-overview .skillsetValue {
+  margin: 15px;
+}
+.c-overview .skillsetImg {
+  width: 100%;
+  height: auto;
+}
+.c-overview .lowest {
+  color: #f00;
+}
+.c-overview .highest {
+  color: #008000;
+}
