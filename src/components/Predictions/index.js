@@ -8,55 +8,110 @@ import { disciplineScore } from '../../libs/calculate'
 import './index.css'
 
 export default class Predictions extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state={
-            typeTeam: "all"
+        this.state = {
+            type: 'all',
+            sort: 'alphabetical',
+            disciplinesArray: []
         }
+        this.array = this.array.bind(this)
+        this.array()
+        console.log(this.state.disciplinesArray)
+    }
+    componentDidUpdate(prevProps,prevState){
+        console.log("component did update",prevProps,prevState)
+    }
 
-        this.allDisciplines = this.allDisciplines.bind(this)
-        this.allIndividual = this.allIndividual.bind(this)
-        this.allTeam = this.allTeam.bind(this)
-    }
-    allDisciplines(){
-        this.setState({
-            typeTeam:"all"
-        })
-        console.log(this.state)
-
-    }
-    allIndividual(){
-        this.setState({
-            typeTeam:"individual"
-        })
-        console.log(this.state)
-    }
-    allTeam(){
-        this.setState({
-            typeTeam:"team"
-        })
-        console.log(this.state)
-    }
     render() {
         return (
             <section className="l-section c-predictions" >
-                <h2 className="header" >Predictions</h2>
-                <button className="btn" onClick={this.discipline.bind(this)}>all</button>
-                <button className="btn" onClick={this.allIndividual.bind(this)}>individual</button>
-                <button className="btn" onClick={this.allTeam.bind(this)}>team</button> 
+                <h2 className="header">Predictions</h2>
+                <label>filter</label>
+                <select value={this.state.value} onChange={this.filter.bind(this)}>
+                    <option>all</option>
+                    <option>team</option>
+                    <option>individual</option>
+                </select>
+                <label>sort</label>
+                <select value={this.state.value} onChange={this.sort.bind(this)}>
+                    <option>alphabetical</option>
+                    <option>score</option>
+                </select>
                 <div className="content">
-                    {this.props.disciplines.map((discipline) => {
+                    {this.state.disciplinesArray.map((discipline) => {
+                        console.log(discipline.name)
+                        switch (this.state.type) {
+                            case 'all':
+                                return (
+                                    <div key={discipline.name} className="c-discipline">
+                                        <span className="name">{discipline.name}</span> - <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}</span>
+                                    </div>
+                                )
+                                break;
+                            case 'team':
+                                if (discipline.isIndividual === false) {
+                                    return (
+                                        <div key={discipline.name} className="c-discipline">
+                                            <span className="name">{discipline.name}</span> - <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}</span>
+                                        </div>
+                                    )
+                                }
+                                break;
+                            case 'individual':
+                                if (discipline.isIndividual === true) {
+                                    return (
+                                        <div key={discipline.name} className="c-discipline">
+                                            <span className="name">{discipline.name}</span> - <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}</span>
+                                        </div>
+                                    )
+                                }
+
+                                break;
+
+                            default:
+                                break;
+                        }
                         
-                        return (
-                            <div key={discipline.name} className="c-discipline">
-                                <span className="name">{discipline.name}</span> - <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}</span>
-                            </div>
-                        )
                     })}
                 </div>
             </section>
         )
     }
+
+    sort(e) {
+        let sortType = e.target.value
+        this.setState({
+            sort: sortType
+        })
+    }
+    filter(e) {
+        let type = e.target.value
+        this.setState({
+            type: type
+        })
+    }
+    array(){
+        var disciplinesArray = []
+        let counter = 0
+        this.props.disciplines.map((discipline) =>{
+            disciplinesArray[counter] = {
+                ...discipline,
+                score: disciplineScore(this.props.athlete.skillset, discipline.requirements)
+            }
+            counter++
+        })
+        console.log(disciplinesArray)
+        this.setState({
+            disciplinesArray: [
+                ...disciplinesArray
+            ]
+        },console.log(this.state))
+       
+    }
+   
+    
+
 }
 
 Predictions.propTypes = {
