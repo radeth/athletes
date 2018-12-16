@@ -13,11 +13,17 @@ export default class Predictions extends React.Component {
         this.state = {
             type: 'all',
             sort: 'alphabetical',
-            disciplinesArray: []
+            array: []
         }
         this.array = this.array.bind(this)
         this.array()
-        console.log(this.state.disciplinesArray)
+    }
+    v(nextProps, nextState) {
+        console.log("Should Component update", nextProps, nextState);
+        return true;
+    }
+    componentWillUpdate(nextProps, nextState) {
+        console.log("Component will update", nextProps, nextState);
     }
     componentDidUpdate(prevProps,prevState){
         console.log("component did update",prevProps,prevState)
@@ -39,8 +45,7 @@ export default class Predictions extends React.Component {
                     <option>score</option>
                 </select>
                 <div className="content">
-                    {this.state.disciplinesArray.map((discipline) => {
-                        console.log(discipline.name)
+                    {this.state.array.map((discipline) => {
                         switch (this.state.type) {
                             case 'all':
                                 return (
@@ -103,11 +108,11 @@ export default class Predictions extends React.Component {
         })
         console.log(disciplinesArray)
         this.setState({
-            disciplinesArray: [
-                ...disciplinesArray
-            ]
-        },console.log(this.state))
-       
+            array: [...disciplinesArray]
+        })
+        this.setState({
+            array: [...disciplinesArray]
+        })
     }
    
     
