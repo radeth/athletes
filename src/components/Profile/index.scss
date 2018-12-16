@@ -1,3 +1,4 @@
+@import'./../../settings.scss';
 .c-profile {
   display: flex;
   align-items: center;
@@ -6,7 +7,7 @@
 .c-profile h1 {
   margin-bottom: 0.1em;
   font-family: "Josefin Sans", Helvetica, sans-serif;
-  color: #344563;
+  color: $colorTwo;
 }
 .c-profile ul {
   margin: 0;
@@ -23,7 +24,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  box-shadow: 3px 3px 20px -3px #808080;
-  border: 2px solid #0052cc;
+  box-shadow: 3px 3px 20px -3px $colorFive;
+  border: 2px solid $colorFour;
   border-radius: 50%;
 }

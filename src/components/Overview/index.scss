@@ -1,6 +1,7 @@
+@import'./../../settings.scss';
 .c-overview .header {
   font-family: "Josefin Sans", Helvetica, sans-serif;
-  color: #172b4d;
+  color: $colorOne;
   position: relative;
 }
 .c-overview .label {

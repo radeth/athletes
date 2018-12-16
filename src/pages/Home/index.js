@@ -7,7 +7,7 @@ import Hints from '../../components/Hints';
 import Overview from '../../components/Overview';
 import Predictions from '../../components/Predictions';
 import Profile from '../../components/Profile';
-import './index.css';
+import './index.scss';
 import {Tabs, Tab} from '../../../node_modules/react-bootstrap' 
 
 export default class Home extends React.Component {

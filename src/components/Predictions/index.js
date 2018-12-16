@@ -5,7 +5,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { disciplineScore } from '../../libs/calculate'
-import './index.css'
+import './index.scss'
 
 export default class Predictions extends React.Component {
     constructor(props) {
@@ -13,22 +13,11 @@ export default class Predictions extends React.Component {
         this.state = {
             type: 'all',
             sort: 'alphabetical',
-            array: []
+            array: this.array().sort((a, b) => {
+                return a.name.localeCompare(b.name)})
         }
         this.array = this.array.bind(this)
-        this.array()
     }
-    v(nextProps, nextState) {
-        console.log("Should Component update", nextProps, nextState);
-        return true;
-    }
-    componentWillUpdate(nextProps, nextState) {
-        console.log("Component will update", nextProps, nextState);
-    }
-    componentDidUpdate(prevProps,prevState){
-        console.log("component did update",prevProps,prevState)
-    }
-
     render() {
         return (
             <section className="l-section c-predictions" >
@@ -45,55 +34,37 @@ export default class Predictions extends React.Component {
                     <option>score</option>
                 </select>
                 <div className="content">
-                    {this.state.array.map((discipline) => {
-                        switch (this.state.type) {
-                            case 'all':
-                                return (
-                                    <div key={discipline.name} className="c-discipline">
-                                        <span className="name">{discipline.name}</span> - <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}</span>
-                                    </div>
-                                )
-                                break;
-                            case 'team':
-                                if (discipline.isIndividual === false) {
-                                    return (
-                                        <div key={discipline.name} className="c-discipline">
-                                            <span className="name">{discipline.name}</span> - <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}</span>
-                                        </div>
-                                    )
-                                }
-                                break;
-                            case 'individual':
-                                if (discipline.isIndividual === true) {
-                                    return (
-                                        <div key={discipline.name} className="c-discipline">
-                                            <span className="name">{discipline.name}</span> - <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}</span>
-                                        </div>
-                                    )
-                                }
-
-                                break;
-
-                            default:
-                                break;
-                        }
-                        
-                    })}
+                   {this.renderContent(this.state.type,this.state.sort)}
                 </div>
             </section>
         )
     }
-
+    renderContent(){
+       
+    }
     sort(e) {
-        let sortType = e.target.value
         this.setState({
-            sort: sortType
+            sort: e.target.value
         })
+        if(e.target.value==='alphabetical'){
+            this.setState({
+                array: this.state.array.sort((a, b) => {
+                    return a.name.localeCompare(b.name)})
+            })
+        }
+        if(e.target.value==='score'){
+            this.setState({
+                array: this.state.array.sort((a, b) => {
+                    return a.score-b.score})
+            })
+        }
+        
+
+       
     }
     filter(e) {
-        let type = e.target.value
         this.setState({
-            type: type
+            type:  e.target.value
         })
     }
     array(){
@@ -106,13 +77,7 @@ export default class Predictions extends React.Component {
             }
             counter++
         })
-        console.log(disciplinesArray)
-        this.setState({
-            array: [...disciplinesArray]
-        })
-        this.setState({
-            array: [...disciplinesArray]
-        })
+        return disciplinesArray
     }
    
     

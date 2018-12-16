@@ -4,7 +4,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import './index.css'
+import './index.scss'
 import aesthetics from './../../public/images/aesthetics.png'
 import agility from './../../public/images/agility.png'
 import enduranceImage from './../../public/images/endurance.png'

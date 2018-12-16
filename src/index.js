@@ -8,7 +8,7 @@ import Home from './pages/Home';
 import athletes from './fixtures/athletes.json';
 import disciplines from './fixtures/disciplines.json';
 
-import './index.css'
+import './index.scss'
 
 const App = () => (
   <div>

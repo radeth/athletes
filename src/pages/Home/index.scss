@@ -1,0 +1,14 @@
+@import'./../../settings.scss';
+.p-home {
+  background-color: $colorBackground;
+  color: $colorThree;
+  max-width: 600px;
+  margin: 50 auto;
+  padding: 5px 20px;
+  box-shadow: 5px 5px 10px 0 $colorSix;
+  border: 1px solid $colorSix;
+}
+
+button {
+  margin: 5px !important;
+}
