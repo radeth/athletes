@@ -13,16 +13,22 @@ export default class Predictions extends React.Component {
         this.state = {
             filterType: 'all',
             sortType: 'alphabetical',
-            arrayOfDisciplines: []
+            arrayOfDisciplines: this.setInitialArray()
         }
-        
+
     }
-    componentDidUpdate() {
-     
-   
+
+    componentDidUpdate(prevState) {
+        console.log(this.state)
+        if (prevState===this.state) {
+            this.setState({
+                disciplinesArray: this.setArray()
+           
+            })
+        }
     }
     render() {
-        this.array()
+        this.setArray()
         return (
             <section className="l-section c-predictions" >
                 <h2 className="header">Predictions</h2>
@@ -38,28 +44,36 @@ export default class Predictions extends React.Component {
                     <option>score</option>
                 </select>
                 <div className="content">
-                {this.state.arrayOfDisciplines.map((discipline)=>{
-                    return(
-                        <div key={discipline.name} className="c-discipline">
-                        <span className="name">{discipline.name}</span> - <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}</span>
-                    </div>
-                    )
-                })}
+                    {this.state.arrayOfDisciplines.map((discipline) => {
+                        return (
+                            <div onClick={() => this.setToggle(discipline.name)} key={discipline.name} className="c-discipline">
+                                <span className="name">{discipline.name}</span> - <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}</span>
+                                {discipline.isHidden && <div>some tek</div>}
+
+                            </div>
+                        )
+                    })}
 
                 </div>
             </section>
         )
     }
-    //returning sort and filter array of disciplines
-    array(e) {
+    //return initial array
+    setInitialArray() {
         let disciplinesArray = this.props.disciplines
-        disciplinesArray = this.props.disciplines.map((discipline) => {
+        disciplinesArray = disciplinesArray.map((discipline) => {
             return discipline = {
                 ...discipline,
-                score: disciplineScore(this.props.athlete.skillset, discipline.requirements)
+                score: disciplineScore(this.props.athlete.skillset, discipline.requirements),
+                isHidden: false
             }
-           
         })
+
+        return disciplinesArray
+    }
+    //returning sort and filter array of disciplines
+    setArray() {
+        let disciplinesArray = this.state.arrayOfDisciplines
         switch (this.state.sortType) {
             case 'alphabetical':
                 disciplinesArray = disciplinesArray.sort((a, b) => {
@@ -77,22 +91,33 @@ export default class Predictions extends React.Component {
         }
         switch (this.state.filterType) {
             case 'team':
+                console.log('team')
                 disciplinesArray = disciplinesArray.filter((discipline) => {
                     return discipline.isIndividual === false
                 })
                 break
             case 'individual':
+                console.log('team')
                 disciplinesArray = disciplinesArray.filter((discipline) => {
                     return discipline.isIndividual === true
                 })
                 break
             default:
         }
-       this.setState({
-           arrayOfDisciplines: disciplinesArray
-       })
+        return disciplinesArray
     }
+    setToggle(disciplineName, props) {
+        let disciplinesArray = this.state.arrayOfDisciplines
 
+        disciplinesArray.find((discipline) => {
+            return discipline.name === disciplineName
+        }).isHidden = !disciplinesArray.find((discipline) => {
+            return discipline.name === disciplineName
+        }).isHidden
+
+        return disciplinesArray
+
+    }
     //setting sort type
     setSortType(e) {
         this.setState({
@@ -101,9 +126,9 @@ export default class Predictions extends React.Component {
     }
     //setting filter type
     setFilterType(e) {
-       this.setState({
-           filterType: e.target.value
-       })
+        this.setState({
+            filterType: e.target.value
+        })
     }
 }
 
