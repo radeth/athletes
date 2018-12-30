@@ -1,11 +1,40 @@
 @import'./../../settings.scss';
 .c-predictions .header {
-  font-family: "Josefin Sans", Helvetica, sans-serif;
-  color: $colorOne;
+    font-family: "Josefin Sans", Helvetica, sans-serif;
+    color: $colorOne;
 }
+
 .c-discipline {
-  padding: 5px 10px;
-  margin: 5px 0;
-  border-radius: 3px;
-  border: 1px solid $colorOne;
+    position: relative;
+    padding: 5px 10px;
+    margin: 5px 0;
+    border-radius: 3px;
+    border: 1px solid $colorOne;
+    transition: 0.3s;
+    &:hover {
+        border: 1px solid $colorFour;
+    }
+}
+
+.discipline-photo {
+    display: inline;
+    height: 30%;
+}
+
+.flag {
+    right: 5px;
+    position: absolute;
+    display: inline-block;
+}
+
+.tags {
+    left: 50%;
+    position: absolute;
+    bottom: 70%;
+}
+.c-overview .lowest {
+  color: $colorLowest;
+}
+.c-overview .highest {
+  color: $colorHighest;
 }

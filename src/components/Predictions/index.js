@@ -6,6 +6,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './index.scss'
 import { disciplineScore } from '../../libs/calculate'
+import Flip from 'react-reveal/Flip'; // Importing Zoom effect
 
 export default class Predictions extends React.Component {
     constructor(props) {
@@ -13,17 +14,19 @@ export default class Predictions extends React.Component {
         this.state = {
             filterType: 'all',
             sortType: 'alphabetical',
-            arrayOfDisciplines: this.setInitialArray()
+            initialArrayOfDisciplines: [],
+            arrayOfDisciplines: []
+            
         }
-
     }
-
-    componentDidUpdate(prevState) {
-        console.log(this.state)
-        if (prevState===this.state) {
+   
+    
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.arrayOfDisciplines === this.state.arrayOfDisciplines) {
             this.setState({
-                disciplinesArray: this.setArray()
-           
+                initialArrayOfDisciplines:this.setInitialArray(),
+                arrayOfDisciplines: this.setArray()
+
             })
         }
     }
@@ -47,9 +50,21 @@ export default class Predictions extends React.Component {
                     {this.state.arrayOfDisciplines.map((discipline) => {
                         return (
                             <div onClick={() => this.setToggle(discipline.name)} key={discipline.name} className="c-discipline">
-                                <span className="name">{discipline.name}</span> - <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}</span>
-                                {discipline.isHidden && <div>some tek</div>}
-
+                                <span className="name">{discipline.name}</span> - <span className="score">{discipline.score}
+                                </span>
+                                {discipline.isIndividual ? <div className='flag'>Individual</div> : <div className='flag'>Team</div>}
+                                {discipline.isHidden &&
+                                <Flip bottom className="toggleContent">
+                                <div>
+                                <img alt="discipline-photo" className="discipline-photo" src={discipline.photo}></img>
+                                <div className="tags">
+                                    <span>Tags:</span>
+                                    {discipline.tags.map((tag)=>{
+                                        return <p>{tag}</p>
+                                    })}
+                                </div>
+                                </div>
+                                </Flip>}
                             </div>
                         )
                     })}
@@ -60,6 +75,7 @@ export default class Predictions extends React.Component {
     }
     //return initial array
     setInitialArray() {
+        console.log('initial')
         let disciplinesArray = this.props.disciplines
         disciplinesArray = disciplinesArray.map((discipline) => {
             return discipline = {
@@ -73,31 +89,31 @@ export default class Predictions extends React.Component {
     }
     //returning sort and filter array of disciplines
     setArray() {
-        let disciplinesArray = this.state.arrayOfDisciplines
+        let disciplinesArray = this.state.initialArrayOfDisciplines.map((discipline)=>{
+            return discipline
+        })
         switch (this.state.sortType) {
             case 'alphabetical':
-                disciplinesArray = disciplinesArray.sort((a, b) => {
+                disciplinesArray = disciplinesArray.slice().sort((a, b) => {
                     return a.name.localeCompare(b.name)
                 })
                 break
             case 'score':
-                disciplinesArray = disciplinesArray.sort((a, b) => {
+                disciplinesArray = disciplinesArray.slice().sort((a, b) => {
                     return a.score - b.score
                 })
                 break
             default:
 
-
         }
         switch (this.state.filterType) {
             case 'team':
-                console.log('team')
                 disciplinesArray = disciplinesArray.filter((discipline) => {
                     return discipline.isIndividual === false
                 })
                 break
             case 'individual':
-                console.log('team')
+
                 disciplinesArray = disciplinesArray.filter((discipline) => {
                     return discipline.isIndividual === true
                 })
@@ -106,17 +122,23 @@ export default class Predictions extends React.Component {
         }
         return disciplinesArray
     }
-    setToggle(disciplineName, props) {
-        let disciplinesArray = this.state.arrayOfDisciplines
-
-        disciplinesArray.find((discipline) => {
-            return discipline.name === disciplineName
-        }).isHidden = !disciplinesArray.find((discipline) => {
-            return discipline.name === disciplineName
-        }).isHidden
-
-        return disciplinesArray
-
+    setToggle(disciplineName) {
+       let disciplinesArray = this.state.arrayOfDisciplines.map((discipline)=>{
+           if(disciplineName===discipline.name){
+               return{
+                   ...discipline,
+                   isHidden: !discipline.isHidden
+               }
+           }else{
+               return{
+                   ...discipline
+               }
+           }
+       })
+       this.setState({
+           arrayOfDisciplines: disciplinesArray
+       })
+    
     }
     //setting sort type
     setSortType(e) {
