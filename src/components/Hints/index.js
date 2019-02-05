@@ -33,7 +33,6 @@ export default class Hints extends React.Component {
             })
 
         }
-        console.log(this.state)
     }
 
     render() {
@@ -50,7 +49,7 @@ export default class Hints extends React.Component {
                                     return (
                                         <div className="c-discipline" key={discipline.name}>
                                             <span className="name">{discipline.name}</span> -
-                                        <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}</span>
+                                        <span className="score">{discipline.score}</span>
                                         </div>)
                                 })}
 
