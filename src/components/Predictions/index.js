@@ -14,17 +14,22 @@ export default class Predictions extends React.Component {
         this.state = {
             filterType: 'all',
             sortType: 'alphabetical',
-            initialArrayOfDisciplines: [],
+            initialArrayOfDisciplines: this.setInitialArray(),
             arrayOfDisciplines: []
             
         }
     }
    
+   
     
     componentDidUpdate(prevProps, prevState) {
+        if(prevProps!==this.props){
+            this.setState({
+                setInitialArray: this.setInitialArray()
+            })
+        }
         if (prevState.arrayOfDisciplines === this.state.arrayOfDisciplines) {
             this.setState({
-                initialArrayOfDisciplines:this.setInitialArray(),
                 arrayOfDisciplines: this.setArray()
 
             })
@@ -50,7 +55,7 @@ export default class Predictions extends React.Component {
                     {this.state.arrayOfDisciplines.map((discipline) => {
                         return (
                             <div onClick={() => this.setToggle(discipline.name)} key={discipline.name} className="c-discipline">
-                                <span className="name">{discipline.name}</span> - <span className="score">{discipline.score}
+                                <span className="name">{discipline.name}</span> - <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}
                                 </span>
                                 {discipline.isIndividual ? <div className='flag'>Individual</div> : <div className='flag'>Team</div>}
                                 {discipline.isHidden &&
@@ -75,7 +80,6 @@ export default class Predictions extends React.Component {
     }
     //return initial array
     setInitialArray() {
-        console.log('initial')
         let disciplinesArray = this.props.disciplines
         disciplinesArray = disciplinesArray.map((discipline) => {
             return discipline = {

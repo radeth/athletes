@@ -10,33 +10,68 @@ import { disciplineScore } from '../../libs/calculate'
 
 
 export default class Hints extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state={
+        this.state = {
             arrayOfdisciplines: this.setInitialArray(),
-            ShouldTryArray: []
+            shouldTryArray: [],
+            shouldAvoidArray: []
+
+        }
+
     }
-    
-    }
-    componentDidUpdate(){
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps !== this.props) {
+            this.setState({
+                arrayOfdisciplines: this.setInitialArray()
+            })
+        }
+        if (prevState === this.state) {
+            this.setState({
+                shouldTryArray: this.setShouldTryArray(),
+                shouldAvoidArray: this.setShouldAvoidArray()
+            })
+
+        }
         console.log(this.state)
-     
     }
+
     render() {
         this.setShouldTryArray()
+        this.setShouldAvoidArray()
         return (
             <section className="l-section c-hints">
                 <h2 className="header" >Hints</h2>
                 <div className="content">
-                <Tabs defaultActiveKey={2} id="uncontrolled-tab-example">
-                    <Tab eventKey={1} title="Should try">
-                    
-                    </Tab>
-                    <Tab eventKey={2} title="Should avoid">
-                        
-                    </Tab>
-                </Tabs>
-                    
+                    <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+                        <Tab eventKey={1} title="Should try">
+                            <div className="content">
+                                {this.state.shouldTryArray.map((discipline) => {
+                                    return (
+                                        <div className="c-discipline" key={discipline.name}>
+                                            <span className="name">{discipline.name}</span> -
+                                        <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}</span>
+                                        </div>)
+                                })}
+
+                            </div>
+
+                        </Tab>
+                        <Tab eventKey={2} title="Should avoid">
+                            <div className="content">
+                                {this.state.shouldAvoidArray.map((discipline) => {
+                                    return (
+                                        <div className="c-discipline" key={discipline.name}>
+                                            <span className="name">{discipline.name}</span> -
+                                        <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}</span>
+                                        </div>)
+                                })}
+
+                            </div>
+
+                        </Tab>
+                    </Tabs>
+
                 </div>
             </section>
         )
@@ -52,44 +87,68 @@ export default class Hints extends React.Component {
 
         return disciplinesArray
     }
-    setShouldTryArray(){
+    setShouldTryArray() {
         let disciplinesArray = this.state.arrayOfdisciplines
         disciplinesArray.sort((a, b) => {
-            return b.score - a.score})
-        console.log(disciplinesArray)
-        let tryArray = []
-        let valuesCounter = 3
-        let i=0
-        while(Object.keys(tryArray).length< valuesCounter){
-            if(this.checkNative(disciplinesArray[i])){
-                valuesCounter++
-            }else{
-                if(disciplinesArray[i].score===disciplinesArray[i+1].score){
-                    tryArray.push(disciplinesArray[i])
-                    valuesCounter++
-                }
-                tryArray.push(disciplinesArray[i])
-            }
-            
-            i++
-         }
-        console.log(tryArray) 
-        return tryArray
-          
-        }
-    checkNative(discipline){
-        //console.log(discipline.name,this.props.athlete.nativeDisciplines)
-        this.props.athlete.nativeDisciplines.forEach((nativeDiscipline) => {
-            if(nativeDiscipline===discipline.name){
-                return true
-            }
-            return false
+            return b.score - a.score
         })
-           
-        
-     
-       
+        let bestValuesArray = []
+        let lastValue = null
+        let bestValueCounter = 0
+        for (let i = 0; i < Object.keys(disciplinesArray).length && bestValueCounter < 3; i++) {
+            if (this.checkNative(disciplinesArray[i].name) === false) {
+                bestValuesArray[i] = disciplinesArray[i]
+                if (bestValuesArray[i].score !== lastValue) {
+                    lastValue = disciplinesArray[i].score
+                    bestValueCounter++
 
+                }
+            }
+
+        }
+        return bestValuesArray
+
+    }
+
+    setShouldAvoidArray() {
+        let disciplinesArray = this.state.arrayOfdisciplines
+        disciplinesArray.sort((a, b) => {
+            return a.score - b.score
+        })
+        let bestValuesArray = []
+        let lastValue = null
+        let bestValueCounter = 0
+        for (let i = 0; i < Object.keys(disciplinesArray).length && bestValueCounter < 3; i++) {
+            if (this.checkNative(disciplinesArray[i].name) === false) {
+                bestValuesArray[i] = disciplinesArray[i]
+                if (bestValuesArray[i].score !== lastValue) {
+                    lastValue = disciplinesArray[i].score
+                    bestValueCounter++
+
+                }
+            }
+
+        }
+        return bestValuesArray
+
+    }
+    checkNative(discipline) {
+        //console.log(discipline.name,this.props.athlete.nativeDisciplines)
+        let isNative = null
+        this.props.athlete.nativeDisciplines.forEach((nativeDiscipline) => {
+            // console.log(nativeDiscipline)
+            // console.log(discipline)
+
+            if (nativeDiscipline === discipline) {
+                isNative = true // is navite
+            } else {
+                isNative = false
+            }
+
+
+            // native
+        })
+        return isNative
     }
 }
 
