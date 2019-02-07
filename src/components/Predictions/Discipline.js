@@ -1,6 +1,5 @@
 import React from "react";
 import "./index.scss";
-import Flip from "react-reveal/Flip";
 class Discipline extends React.Component {
   constructor() {
     super();
