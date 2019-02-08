@@ -43,7 +43,7 @@ export default class Predictions extends React.Component {
             </select>
           </form>
           {this.state.arrayOfDiciplines.map(discipline => {
-            return <Discipline discipline={discipline} />;
+            return <Discipline key={discipline.name} discipline={discipline} />;
           })}
         </div>
       </section>
