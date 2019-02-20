@@ -88,11 +88,17 @@ export default class Hints extends React.Component {
       i++
     ) {
       if (this.checkNative(disciplinesArray[i].name) === false) {
-        bestValuesArray[i] = disciplinesArray[i];
-        if (bestValuesArray[i].score !== lastValue) {
-          lastValue = disciplinesArray[i].score;
-          bestValueCounter++;
+
+        bestValuesArray.push(disciplinesArray[i])
+        if (lastValue !== null) {
+          console.log(lastValue.score, disciplinesArray[i + 1].score)
+          if (disciplinesArray[i + 1].score !== lastValue.score) {
+            bestValueCounter++
+          }
         }
+        lastValue = disciplinesArray[i]
+
+
       }
     }
     return bestValuesArray;
@@ -121,11 +127,16 @@ export default class Hints extends React.Component {
       i++
     ) {
       if (this.checkNative(disciplinesArray[i].name) === false) {
-        bestValuesArray[i] = disciplinesArray[i];
-        if (bestValuesArray[i].score !== lastValue) {
-          lastValue = disciplinesArray[i].score;
-          bestValueCounter++;
+
+        bestValuesArray.push(disciplinesArray[i])
+        if (lastValue !== null) {
+          if (disciplinesArray[i + 1].score !== lastValue.score) {
+            bestValueCounter++
+          }
         }
+        lastValue = disciplinesArray[i]
+
+
       }
     }
     return bestValuesArray;
