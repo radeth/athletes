@@ -80,7 +80,6 @@ export default class Hints extends React.Component {
       return b.score - a.score;
     });
     let bestValuesArray = [];
-    let lastValue = null;
     let bestValueCounter = 0;
     for (
       let i = 0;
@@ -88,16 +87,18 @@ export default class Hints extends React.Component {
       i++
     ) {
       if (this.checkNative(disciplinesArray[i].name) === false) {
-
-        bestValuesArray.push(disciplinesArray[i])
-        lastValue = disciplinesArray[i]
-          if (disciplinesArray[i + 1].score !== lastValue.score) {
-            bestValueCounter++
-          }
-        
-       
-
-
+        bestValuesArray.push(disciplinesArray[i]);
+        if (
+          disciplinesArray[i + 1].score !== disciplinesArray[i].score &&
+          this.checkNative(disciplinesArray[i + 1].name) === false
+        ) {
+          bestValueCounter++;
+        } else if (
+          disciplinesArray[i + 1].score === disciplinesArray[i].score &&
+          this.checkNative(disciplinesArray[i + 1].name) === true
+        ) {
+          bestValueCounter++;
+        }
       }
     }
     return bestValuesArray;
@@ -118,7 +119,6 @@ export default class Hints extends React.Component {
       return a.score - b.score;
     });
     let bestValuesArray = [];
-    let lastValue = null;
     let bestValueCounter = 0;
     for (
       let i = 0;
@@ -126,14 +126,15 @@ export default class Hints extends React.Component {
       i++
     ) {
       if (this.checkNative(disciplinesArray[i].name) === false) {
-
-        bestValuesArray.push(disciplinesArray[i])
-        lastValue = disciplinesArray[i]
-        if (disciplinesArray[i + 1].score !== lastValue.score) {
-          bestValueCounter++
+        bestValuesArray.push(disciplinesArray[i]);
+        if (this.checkNative(disciplinesArray[i + 1].name) === false) {
+          if (
+            disciplinesArray[i + 1].score !== disciplinesArray[i].score &&
+            this.checkNative(disciplinesArray[i + 1].name) === false
+          ) {
+            bestValueCounter++;
+          }
         }
-
-
       }
     }
     return bestValuesArray;
