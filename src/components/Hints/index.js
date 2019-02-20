@@ -81,25 +81,21 @@ export default class Hints extends React.Component {
     });
     let bestValuesArray = [];
     let bestValueCounter = 0;
+
     for (
       let i = 0;
       i < Object.keys(disciplinesArray).length && bestValueCounter < 3;
       i++
     ) {
-      if (this.checkNative(disciplinesArray[i].name) === false) {
-        bestValuesArray.push(disciplinesArray[i]);
-        if (
-          disciplinesArray[i + 1].score !== disciplinesArray[i].score &&
-          this.checkNative(disciplinesArray[i + 1].name) === false
-        ) {
-          bestValueCounter++;
-        } else if (
-          disciplinesArray[i + 1].score === disciplinesArray[i].score &&
-          this.checkNative(disciplinesArray[i + 1].name) === true
-        ) {
-          bestValueCounter++;
-        }
+     if(this.checkNative(disciplinesArray[i])===false){
+      console.log(disciplinesArray[i].name)
+       bestValuesArray.push(disciplinesArray[i])
+       if(disciplinesArray[i]!==disciplinesArray[i+1]){
+      while(this.checkNative(disciplinesArray[i+1])){
+
       }
+       }
+     }
     }
     return bestValuesArray;
   }
@@ -125,36 +121,28 @@ export default class Hints extends React.Component {
       i < Object.keys(disciplinesArray).length && bestValueCounter < 3;
       i++
     ) {
-      if (this.checkNative(disciplinesArray[i].name) === false) {
-        bestValuesArray.push(disciplinesArray[i]);
-        if (this.checkNative(disciplinesArray[i + 1].name) === false) {
-          if (
-            disciplinesArray[i + 1].score !== disciplinesArray[i].score &&
-            this.checkNative(disciplinesArray[i + 1].name) === false
-          ) {
-            bestValueCounter++;
-          }
-        }
-      }
+      // if (this.checkNative(disciplinesArray[i].name) === false) {
+      //   bestValuesArray.push(disciplinesArray[i]);
+      //   if (this.checkNative(disciplinesArray[i + 1].name) === false) {
+      //     if (
+      //       disciplinesArray[i + 1].score !== disciplinesArray[i].score){
+      //      while(this.checkNative(disciplinesArray[i].name)){
+
+      //      }
+      //     }
+      //   }
+      // }
     }
     return bestValuesArray;
   }
   checkNative(discipline) {
-    //console.log(discipline.name,this.props.athlete.nativeDisciplines)
-    let isNative = null;
-    this.props.athlete.nativeDisciplines.forEach(nativeDiscipline => {
-      // console.log(nativeDiscipline)
-      // console.log(discipline)
-
-      if (nativeDiscipline === discipline) {
-        isNative = true; // is navite
-      } else {
-        isNative = false;
-      }
-
-      // native
-    });
-    return isNative;
+    
+   for(let i=0;i<this.props.athlete.nativeDisciplines.length;i++)
+    if(this.props.athlete.nativeDisciplines[i]===discipline.name)return true;
+    return false
+   
+    
+   
   }
 }
 
