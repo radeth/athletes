@@ -90,13 +90,12 @@ export default class Hints extends React.Component {
       if (this.checkNative(disciplinesArray[i].name) === false) {
 
         bestValuesArray.push(disciplinesArray[i])
-        if (lastValue !== null) {
-          console.log(lastValue.score, disciplinesArray[i + 1].score)
+        lastValue = disciplinesArray[i]
           if (disciplinesArray[i + 1].score !== lastValue.score) {
             bestValueCounter++
           }
-        }
-        lastValue = disciplinesArray[i]
+        
+       
 
 
       }
@@ -129,12 +128,10 @@ export default class Hints extends React.Component {
       if (this.checkNative(disciplinesArray[i].name) === false) {
 
         bestValuesArray.push(disciplinesArray[i])
-        if (lastValue !== null) {
-          if (disciplinesArray[i + 1].score !== lastValue.score) {
-            bestValueCounter++
-          }
-        }
         lastValue = disciplinesArray[i]
+        if (disciplinesArray[i + 1].score !== lastValue.score) {
+          bestValueCounter++
+        }
 
 
       }
