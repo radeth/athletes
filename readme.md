@@ -11,8 +11,8 @@ No responsive app displaying athletes data
 
 ## General info
 
-[demo](https://radeth.github.io/athletes/)
-this project was my first junior frontend recruitment task. I did not complete the task in the required time but i return to this recently and finish all features
+[demo](https://radeth.github.io/athletes/ 
+/this project was my first junior frontend recruitment task. I did not complete the task in the required time but i return to this recently and finish all features
 
 ### Training projects
 

@@ -87,15 +87,19 @@ export default class Hints extends React.Component {
       i < Object.keys(disciplinesArray).length && bestValueCounter < 3;
       i++
     ) {
-     if(this.checkNative(disciplinesArray[i])===false){
-      console.log(disciplinesArray[i].name)
-       bestValuesArray.push(disciplinesArray[i])
-       if(disciplinesArray[i]!==disciplinesArray[i+1]){
-      while(this.checkNative(disciplinesArray[i+1])){
+      console.log(this.checkNative(disciplinesArray[i]))
+    //  if(this.checkNative(disciplinesArray[i])===false){
+    //    bestValuesArray.push(disciplinesArray[i])
+    //    i++
+    //    while (this.checkNative(disciplinesArray[i])){
+    //      console.log(this.checkNative(disciplinesArray[i]),"inside")
+    //      i++
+    //    }
+    //    if(disciplinesArray[i].score!==disciplinesArray[i+1].score){
+    //      bestValueCounter++
+    //    }
 
-      }
-       }
-     }
+    //  }
     }
     return bestValuesArray;
   }
