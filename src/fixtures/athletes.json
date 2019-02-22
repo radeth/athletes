@@ -10,9 +10,7 @@
       "agility": 2,
       "aesthetics": 1
     },
-    "nativeDisciplines": [
-      "Volleyball (beach)","Swimming","Baseball","Volleyball (indoor) "
-    ]
+    "nativeDisciplines": ["Swimming"]
   },
   {
     "name": "Simone Biles",
@@ -42,9 +40,7 @@
       "agility": 3,
       "aesthetics": 1
     },
-    "nativeDisciplines": [
-      "Tennis"
-    ]
+    "nativeDisciplines": ["Tennis"]
   },
   {
     "name": "Muhammad Ali",
@@ -57,8 +53,6 @@
       "agility": 4,
       "aesthetics": 2
     },
-    "nativeDisciplines": [
-      "Boxing"
-    ]
+    "nativeDisciplines": ["Boxing"]
   }
 ]
