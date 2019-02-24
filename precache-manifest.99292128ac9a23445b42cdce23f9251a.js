@@ -24,19 +24,19 @@ self.__precacheManifest = [
     "url": "/athletes/static/js/runtime~main.81098958.js"
   },
   {
-    "revision": "d74102bc83c2a3ea7066",
-    "url": "/athletes/static/js/main.d74102bc.chunk.js"
+    "revision": "d2fbcaa80944e180c40d",
+    "url": "/athletes/static/js/main.d2fbcaa8.chunk.js"
   },
   {
     "revision": "808dd244b67c16a6acf4",
     "url": "/athletes/static/js/1.808dd244.chunk.js"
   },
   {
-    "revision": "d74102bc83c2a3ea7066",
+    "revision": "d2fbcaa80944e180c40d",
     "url": "/athletes/static/css/main.892d3b45.chunk.css"
   },
   {
-    "revision": "e0843447311d13ebd98809694fa5f66d",
+    "revision": "dda9f92d540a1ea37449777ae9f9a514",
     "url": "/athletes/index.html"
   }
 ];
