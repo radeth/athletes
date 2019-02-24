@@ -7,11 +7,11 @@ No responsive app displaying athletes data
 - [General info](#general-info)
 - [Screenshots](#screenshots)
 - [Technologies](#technologies)
-- [Setup](#setup))
+- [Setup](#setup)
 
 ## General info
 
-[demo](https://radeth.github.io/athletes/ </br>
+[demo](https://radeth.github.io/athletes/) </br>
 this project was my first junior frontend recruitment task. I did not complete the task in the required time but i return to this recently and finish all features
 
 ### Training projects
@@ -20,7 +20,8 @@ this project was my first junior frontend recruitment task. I did not complete t
 
 ## Screenshots
 
-![](<//raw.githubusercontent.com/radeth/athletes/workingBranch/localhost_3000_%20(2).png>)
+![](https://raw.githubusercontent.com/radeth/athletes/finalVersion/screenshootOne.png)
+![](https://raw.githubusercontent.com/radeth/athletes/finalVersion/Untitled%20Diagram%20(1).png)
 
 ## Technologies
 
