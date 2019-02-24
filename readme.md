@@ -20,7 +20,7 @@ this project was my first junior frontend recruitment task. I did not complete t
 
 ## Screenshots
 
-![](https://raw.githubusercontent.com/radeth/athletes/finalVersion/screenshootOne.png | width=100)
+![](https://raw.githubusercontent.com/radeth/athletes/finalVersion/screenshootOne.png =250X250)
 ![](https://raw.githubusercontent.com/radeth/athletes/finalVersion/Untitled%20Diagram%20(1).png)
 
 ## Technologies
