@@ -88,18 +88,15 @@ export default class Hints extends React.Component {
       i++
     ) {
       console.log(this.checkNative(disciplinesArray[i]))
-    //  if(this.checkNative(disciplinesArray[i])===false){
-    //    bestValuesArray.push(disciplinesArray[i])
-    //    i++
-    //    while (this.checkNative(disciplinesArray[i])){
-    //      console.log(this.checkNative(disciplinesArray[i]),"inside")
-    //      i++
-    //    }
-    //    if(disciplinesArray[i].score!==disciplinesArray[i+1].score){
-    //      bestValueCounter++
-    //    }
-
-    //  }
+      if (this.checkNative(disciplinesArray[i].name) === false) {
+        bestValuesArray.push(disciplinesArray[i]);
+        while(this.checkNative(disciplinesArray[i+1])===true){
+          i++
+        }
+        if(disciplinesArray[i].score!==disciplinesArray[i+1].score){
+          bestValueCounter++
+        }
+      }
     }
     return bestValuesArray;
   }
@@ -125,28 +122,22 @@ export default class Hints extends React.Component {
       i < Object.keys(disciplinesArray).length && bestValueCounter < 3;
       i++
     ) {
-      // if (this.checkNative(disciplinesArray[i].name) === false) {
-      //   bestValuesArray.push(disciplinesArray[i]);
-      //   if (this.checkNative(disciplinesArray[i + 1].name) === false) {
-      //     if (
-      //       disciplinesArray[i + 1].score !== disciplinesArray[i].score){
-      //      while(this.checkNative(disciplinesArray[i].name)){
-
-      //      }
-      //     }
-      //   }
-      // }
+      if (this.checkNative(disciplinesArray[i].name) === false) {
+        bestValuesArray.push(disciplinesArray[i]);
+        while(this.checkNative(disciplinesArray[i+1])===true){
+          i++
+        }
+        if(disciplinesArray[i+1]!==disciplinesArray[i]){
+          bestValueCounter++
+        }
+      }
     }
     return bestValuesArray;
   }
   checkNative(discipline) {
-    
    for(let i=0;i<this.props.athlete.nativeDisciplines.length;i++)
     if(this.props.athlete.nativeDisciplines[i]===discipline.name)return true;
     return false
-   
-    
-   
   }
 }
 
