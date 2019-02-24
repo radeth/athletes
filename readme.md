@@ -5,10 +5,9 @@ No responsive app displaying athletes data
 ## Table of contents
 
 - [General info](#general-info)
-- [Screenshots](#screenshots)
 - [Technologies](#technologies)
 - [Setup](#setup)
-
+- [Screenshots](#screenshots)
 ## General info
 
 [demo](https://radeth.github.io/athletes/) </br>
@@ -17,11 +16,6 @@ this project was my first junior frontend recruitment task. I did not complete t
 ### Training projects
 
 - using scss in react first time [react-scss](https://github.com/radeth/react-scss)
-
-## Screenshots
-
-![](https://raw.githubusercontent.com/radeth/athletes/finalVersion/screenshootOne.png =250X250)
-![](https://raw.githubusercontent.com/radeth/athletes/finalVersion/Untitled%20Diagram%20(1).png)
 
 ## Technologies
 
@@ -74,3 +68,8 @@ Builds the app for production to the `build` folder.<br>
    Display 2 columns "Should try" & "Should avoid" with at least three disciplines each.
    It should be those disciplines, that are not native for the athlete and have highest & lowest overall score respectively.
    If more then 3 disciplines share the same score display them as well.
+
+## Screenshots
+
+![](https://raw.githubusercontent.com/radeth/athletes/finalVersion/screenshootOne.png)
+![](https://raw.githubusercontent.com/radeth/athletes/finalVersion/Untitled%20Diagram%20(1).png)
