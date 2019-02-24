@@ -2,175 +2,124 @@
  * Component displaying and managing list of disciplines with calculated athlete score.
  */
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import './index.scss'
-import { disciplineScore } from '../../libs/calculate'
-import Flip from 'react-reveal/Flip'; // Importing Zoom effect
+import React from "react";
+import PropTypes from "prop-types";
+import "./index.scss";
+import Discipline from "./Discipline";
+import { disciplineScore } from "../../libs/calculate";
 
 export default class Predictions extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            filterType: 'all',
-            sortType: 'alphabetical',
-            initialArrayOfDisciplines: this.setInitialArray(),
-            arrayOfDisciplines: []
-            
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      filterType: "all",
+      sortType: "alphabetical",
+      arrayOfDiciplines: this.setArray("all", "alphabetical")
+    };
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.athlete !== this.props.athlete) {
+      this.setState({
+        arrayOfDiciplines: this.setArray()
+      });
     }
-   
-   
-    
-    componentDidUpdate(prevProps, prevState) {
-        if(prevProps!==this.props){
-            this.setState({
-                setInitialArray: this.setInitialArray()
-            })
-        }
-        if (prevState.arrayOfDisciplines === this.state.arrayOfDisciplines) {
-            this.setState({
-                arrayOfDisciplines: this.setArray()
-
-            })
-        }
-    }
-    render() {
-        this.setArray()
-        return (
-            <section className="l-section c-predictions" >
-                <h2 className="header">Predictions</h2>
-                <label>filter</label>
-                <select value={this.state.value} onChange={this.setFilterType.bind(this)}>
-                    <option>all</option>
-                    <option>team</option>
-                    <option>individual</option>
-                </select>
-                <label>sort</label>
-                <select value={this.state.value} onChange={this.setSortType.bind(this)}>
-                    <option>alphabetical</option>
-                    <option>score</option>
-                </select>
-                <div className="content">
-                    {this.state.arrayOfDisciplines.map((discipline) => {
-                        return (
-                            <div onClick={() => this.setToggle(discipline.name)} key={discipline.name} className="c-discipline">
-                                <span className="name">{discipline.name}</span> - <span className="score">{disciplineScore(this.props.athlete.skillset, discipline.requirements)}
-                                </span>
-                                {discipline.isIndividual ? <div className='flag'>Individual</div> : <div className='flag'>Team</div>}
-                                {discipline.isHidden &&
-                                <Flip bottom className="toggleContent">
-                                <div>
-                                <img alt="discipline-photo" className="discipline-photo" src={discipline.photo}></img>
-                                <div className="tags">
-                                    <span>Tags:</span>
-                                    {discipline.tags.map((tag)=>{
-                                        return <p>{tag}</p>
-                                    })}
-                                </div>
-                                </div>
-                                </Flip>}
-                            </div>
-                        )
-                    })}
-
-                </div>
-            </section>
+  }
+  render() {
+    return (
+      <section className="l-section c-predictions">
+        <h2 className="header">Predictions</h2>
+        <div className="content">
+          <form onSubmit={e => this.action(e)}>
+            <label>filter</label>
+            <select onChange={this.setFilterType.bind(this)}>
+              <option>all</option>
+              <option>team</option>
+              <option>individual</option>
+            </select>
+            <label>sort</label>
+            <select onChange={this.setSortType.bind(this)}>
+              <option>alphabetical</option>
+              <option>score</option>
+            </select>
+          </form>
+          {this.state.arrayOfDiciplines.map(discipline => {
+            return <Discipline key={discipline.name} discipline={discipline} />;
+          })}
+        </div>
+      </section>
+    );
+  }
+  setSortType(e) {
+    console.log(e.target.value);
+    this.setState({
+      arrayOfDiciplines: this.setArray(this.state.filterType, e.target.value),
+      sortType: e.target.value
+    });
+  }
+  setFilterType(e) {
+    console.log(e.target.value);
+    this.setState({
+      arrayOfDiciplines: this.setArray(e.target.value, this.state.sortType),
+      filterType: e.target.value
+    });
+  }
+  //returning sort and filter array of disciplines
+  setArray(filterType, sortType) {
+    let disciplinesArray = this.props.disciplines;
+    disciplinesArray = disciplinesArray.map(discipline => {
+      return (discipline = {
+        ...discipline,
+        score: disciplineScore(
+          this.props.athlete.skillset,
+          discipline.requirements
         )
+      });
+    });
+    switch (filterType) {
+      case "team":
+        disciplinesArray = disciplinesArray.filter(discipline => {
+          return discipline.isIndividual === false;
+        });
+        break;
+      case "individual":
+        disciplinesArray = disciplinesArray.filter(discipline => {
+          return discipline.isIndividual === true;
+        });
+        break;
+      default:
     }
-    //return initial array
-    setInitialArray() {
-        let disciplinesArray = this.props.disciplines
-        disciplinesArray = disciplinesArray.map((discipline) => {
-            return discipline = {
-                ...discipline,
-                score: disciplineScore(this.props.athlete.skillset, discipline.requirements),
-                isHidden: false
-            }
-        })
-
-        return disciplinesArray
+    switch (sortType) {
+      case "alphabetical":
+        disciplinesArray = disciplinesArray.slice().sort((a, b) => {
+          return a.name.localeCompare(b.name);
+        });
+        break;
+      case "score":
+        disciplinesArray = disciplinesArray.slice().sort((a, b) => {
+          return a.score - b.score;
+        });
+        break;
+      default:
     }
-    //returning sort and filter array of disciplines
-    setArray() {
-        let disciplinesArray = this.state.initialArrayOfDisciplines.map((discipline)=>{
-            return discipline
-        })
-        switch (this.state.sortType) {
-            case 'alphabetical':
-                disciplinesArray = disciplinesArray.slice().sort((a, b) => {
-                    return a.name.localeCompare(b.name)
-                })
-                break
-            case 'score':
-                disciplinesArray = disciplinesArray.slice().sort((a, b) => {
-                    return a.score - b.score
-                })
-                break
-            default:
-
-        }
-        switch (this.state.filterType) {
-            case 'team':
-                disciplinesArray = disciplinesArray.filter((discipline) => {
-                    return discipline.isIndividual === false
-                })
-                break
-            case 'individual':
-
-                disciplinesArray = disciplinesArray.filter((discipline) => {
-                    return discipline.isIndividual === true
-                })
-                break
-            default:
-        }
-        return disciplinesArray
-    }
-    setToggle(disciplineName) {
-       let disciplinesArray = this.state.arrayOfDisciplines.map((discipline)=>{
-           if(disciplineName===discipline.name){
-               return{
-                   ...discipline,
-                   isHidden: !discipline.isHidden
-               }
-           }else{
-               return{
-                   ...discipline
-               }
-           }
-       })
-       this.setState({
-           arrayOfDisciplines: disciplinesArray
-       })
-    
-    }
-    //setting sort type
-    setSortType(e) {
-        this.setState({
-            sortType: e.target.value
-        })
-    }
-    //setting filter type
-    setFilterType(e) {
-        this.setState({
-            filterType: e.target.value
-        })
-    }
+    return disciplinesArray;
+  }
 }
 
 Predictions.propTypes = {
-    athlete: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        photo: PropTypes.string.isRequired,
-        bio: PropTypes.string.isRequired,
-        skillset: PropTypes.objectOf(PropTypes.number).isRequired,
-        nativeDisciplines: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }).isRequired,
-    disciplines: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        photo: PropTypes.string.isRequired,
-        isIndividual: PropTypes.bool.isRequired,
-        tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-        requirements: PropTypes.objectOf(PropTypes.number).isRequired,
-    })).isRequired
-}
+  athlete: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    photo: PropTypes.string.isRequired,
+    bio: PropTypes.string.isRequired,
+    skillset: PropTypes.objectOf(PropTypes.number).isRequired,
+    nativeDisciplines: PropTypes.arrayOf(PropTypes.string).isRequired
+  }).isRequired,
+  disciplines: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      photo: PropTypes.string.isRequired,
+      isIndividual: PropTypes.bool.isRequired,
+      tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+      requirements: PropTypes.objectOf(PropTypes.number).isRequired
+    })
+  ).isRequired
+};
