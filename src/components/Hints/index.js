@@ -1,4 +1,4 @@
-/**
+         /**
  * Component for aggregating user data. Displays disciplines with lowest & highest scores for the given athlete.
  */
 
@@ -93,8 +93,6 @@ export default class Hints extends React.Component {
         while(this.checkNative(disciplinesArray[i+1])===true){
           i++
         }
-        console.log(this.getLastValue(bestValuesArray))
-        console.log(disciplinesArray[i+1].score)
         if(this.getLastValue(bestValuesArray)!==disciplinesArray[i+1].score){
           bestValueCounter++
         }
@@ -129,7 +127,7 @@ export default class Hints extends React.Component {
         while(this.checkNative(disciplinesArray[i+1])===true){
           i++
         }
-        if(disciplinesArray[i+1]!==disciplinesArray[i]){
+        if(this.getLastValue(bestValuesArray)!==disciplinesArray[i+1].score){
           bestValueCounter++
         }
       }
