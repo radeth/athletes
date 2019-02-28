@@ -71,5 +71,5 @@ Builds the app for production to the `build` folder.<br>
 
 ## Screenshots
 
-![](https://raw.githubusercontent.com/radeth/athletes/finalVersion/screenshootOne.png)
-![](https://raw.githubusercontent.com/radeth/athletes/finalVersion/Untitled%20Diagram%20(1).png)
+![](https://raw.githubusercontent.com/radeth/athletes/master/screenshootOne.png)
+![](https://raw.githubusercontent.com/radeth/athletes/master/hints%20diagram.png)
